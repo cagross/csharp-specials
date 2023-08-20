@@ -1,0 +1,76 @@
+# Visual Studio 2022 generated files
+.vs/
+*.vsix
+.vs-test/
+.vs-test/coverage/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet packages
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+[Tt]est[Rr]un*
+[Ss]tyle[Cc]op.*
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+*.sln.ide
+*.dbmdl
+*.dbproj.schemaview
+*.shfbproj
+*.sln.ide-sha1
+
+# Compiled output
+/dist/
+/out/
+/build/
+
+# Dependency directories
+/jspm_packages/
+/bower_components/
+
+# React specific
+node_modules/
+npm-debug.log
+yarn-error.log
+*.log
+yarn.lock
+package-lock.json
+
+# Visual Studio IntelliSense index
+.vsidx
