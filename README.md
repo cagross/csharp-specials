@@ -6,3 +6,9 @@ This repo will eventually house a web app. The app will be a port of my existing
 The front-end will continue to be a React-based UI.
 
 Stay tuned for more developments.
+
+Update: A working hello world web API has been established, with a single route:
+
+`https://specialscapi20230823213803.azurewebsites.net/api/Products`
+
+A GET request to this should return the text: `Hello World (from Carl)`
