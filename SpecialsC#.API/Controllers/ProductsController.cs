@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpecialsC_.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class ProductsController : ControllerBase
+  {
+    [HttpGet]
+    public string GetProducts()
     {
-        [HttpGet]
-        public string GetProducts() {
-            return "Hello World";
-        }
+      return "Hello World (from Carl)";
     }
+  }
 }
