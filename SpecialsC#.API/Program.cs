@@ -22,4 +22,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Ensure default route (i.e. homepage) returns static text.
+app.MapGet("/", async context =>
+{
+    await context.Response.WriteAsync("Future port of Grocery Specials web app to .NET based tech stack. See https://github.com/cagross/csharp-specials.");
+});
+
 app.Run();
