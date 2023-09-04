@@ -7,8 +7,14 @@ The front-end will continue to be a React-based UI.
 
 Stay tuned for more developments.
 
-Update: A working web API has been established. A functioning homepage with placeholder text can be found at https://localhost:7165/. Separately, a single API route returning placeholder text has been setup. The route is:
+Update: A working web API has been established.
+
+- A functioning homepage with placeholder text can be found at https://localhost:7165/.
+
+- A single API route returning placeholder text has been setup. The route is:
 
 `https://specialscapi20230823213803.azurewebsites.net/api/Products`
 
 A GET request to this should return the text: `Hello World (from Carl)`
+
+- A Swagger page describing my API route should be accessible at: https://specialscapi20230823213803.azurewebsites.net/swagger/index.html
