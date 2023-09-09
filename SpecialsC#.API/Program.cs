@@ -40,7 +40,7 @@ var requestData = new
         new
         {
             role = "user",
-            content = "What is the most popular food dish in the state of Virginia? Please ensure your answer consists of *only* the name of the dish.  Do not include any other text in your answer."
+            content = "First choose a random US state.  Then tell me the most popular food dish in that state. Please return your answer formatted as JSON containing two different properties: stateName and dishName.  Do not include any other text in your answer."
         }
     }
 };
@@ -71,7 +71,16 @@ app.MapGet("/", async context =>
     // Access the content property from choices in the JSON response
     string myResponse = responseObject.choices[0].message.content;
     System.Diagnostics.Debug.WriteLine($"myResponse value: {myResponse}");
-    await context.Response.WriteAsync($"Future port of Grocery Specials web app to .NET based tech stack. See https://github.com/cagross/csharp-specials. See working Swagger page at https://specialscapi20230823213803.azurewebsites.net/swagger/index.html  Here is the name of a random food dish: {myResponse}");
+
+    ContentModel contentModel = JsonSerializer.Deserialize<ContentModel>(myResponse);
+    // Now you can access the individual properties.
+    string stateName = contentModel.stateName;
+    string dishName = contentModel.dishName;
+
+    System.Diagnostics.Debug.WriteLine($"stateName value: {stateName}");
+    System.Diagnostics.Debug.WriteLine($"dishName value: {dishName}");
+
+    await context.Response.WriteAsync($"Future port of Grocery Specials web app to .NET based tech stack. See https://github.com/cagross/csharp-specials. See working Swagger page at https://specialscapi20230823213803.azurewebsites.net/swagger/index.html  FYI the most popular food dish in {stateName} is {dishName}");
   }
   else
   {
@@ -108,4 +117,10 @@ public class Usage
   public int prompt_tokens { get; set; }
   public int completion_tokens { get; set; }
   public int total_tokens { get; set; }
+}
+
+public class ContentModel
+{
+  public string stateName { get; set; }
+  public string dishName { get; set; }
 }
