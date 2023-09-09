@@ -1,3 +1,5 @@
+using System.Text.Json; // Add this line
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,6 +26,9 @@ if (response.IsSuccessStatusCode)
   var json = await response.Content.ReadAsStringAsync();
   System.Diagnostics.Debug.WriteLine("CAG: json obtained.");
   System.Diagnostics.Debug.WriteLine(json);
+  var myResponse = JsonSerializer.Deserialize<MyResponseModel>(json);
+  string myValue = myResponse.name;
+  System.Diagnostics.Debug.WriteLine($"myProp value: {myValue}");
 }
 else
 {
@@ -46,3 +51,8 @@ app.MapGet("/", async context =>
 });
 
 app.Run();
+public class MyResponseModel
+{
+  public string name { get; set; } // Replace 'string' with the actual data type of myProp in your JSON
+                                   // Add other properties matching your JSON structure
+}
