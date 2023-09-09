@@ -80,7 +80,7 @@ app.MapGet("/", async context =>
     System.Diagnostics.Debug.WriteLine($"stateName value: {stateName}");
     System.Diagnostics.Debug.WriteLine($"dishName value: {dishName}");
 
-    await context.Response.WriteAsync($"Future port of Grocery Specials web app to .NET based tech stack. See https://github.com/cagross/csharp-specials. See working Swagger page at https://specialscapi20230823213803.azurewebsites.net/swagger/index.html  FYI the most popular food dish in {stateName} is {dishName}");
+    await context.Response.WriteAsync($"Future port of Grocery Specials web app to .NET based tech stack. In addition, it will contain an AI component. In fact, here is some content fetched from ChatGPT: The most popular food dish in {stateName} is {dishName}.  See https://github.com/cagross/csharp-specials. See working Swagger page at https://specialscapi20230823213803.azurewebsites.net/swagger/index.html");
   }
   else
   {
