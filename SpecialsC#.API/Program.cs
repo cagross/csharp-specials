@@ -1,15 +1,35 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add HttpClient as a service
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+var httpClient = app.Services.GetRequiredService<IHttpClientFactory>().CreateClient();
+
+// Make the GET request and waitfor the response.
+var response = await httpClient.GetAsync("https://api.wordpress.org/plugins/info/1.0/woocommerce.json");
+if (response.IsSuccessStatusCode)
+{
+
+  System.Diagnostics.Debug.WriteLine("CAG: Success status code.");
+  // Read the content as a string
+  var json = await response.Content.ReadAsStringAsync();
+  System.Diagnostics.Debug.WriteLine("CAG: json obtained.");
+  System.Diagnostics.Debug.WriteLine(json);
+}
+else
+{
+  System.Diagnostics.Debug.WriteLine($"HTTP request failed with status code: {response.StatusCode}");
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
