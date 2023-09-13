@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 # Azure deployment profile
 profile.arm.json
+
+wwwroot
