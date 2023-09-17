@@ -7,7 +7,7 @@ The front-end will continue to be a React-based UI.
 
 Stay tuned for more developments.
 
-Update: I have now established both a functioning homepage (with AI component) and a functioning web API route. I also have a simple end-to-end test working.
+Update: I have now established both a functioning homepage and a functioning web API route. I also have a simple end-to-end test working. The AI component has been temporarily removed, but will be reinstated soon.
 
 - Homepage: A functioning homepage can be found at https://localhost:7165/.
 
