@@ -7,9 +7,11 @@ The front-end will continue to be a React-based UI.
 
 Stay tuned for more developments.
 
-Update: A working web API has been established.
+Update: I have now established both a functioning homepage (with AI component) and a functioning web API route. I also have a simple end-to-end test working.
 
-- Homepage: A functioning homepage with can be found at https://localhost:7165/.
+- Homepage: A functioning homepage can be found at https://localhost:7165/.
+
+- End-To-End Test: One single end-to-end test is working, and passing. The test is built upon xUnit and Selenium.
 
 - AI component: The homepage displays AI-generated content: the most popular dish in a random US state. The final app will have a similar component.
 
