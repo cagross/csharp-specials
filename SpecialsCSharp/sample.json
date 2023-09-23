@@ -1,0 +1,62 @@
+{
+    "0233": {
+        "storeLocation": [
+            "Giant Food",
+            "7235 Arlington Blvd.",
+            "Falls Church, VA 22042"
+        ],
+        "items": [
+          {
+            "flyer_item_id": 776452024,
+            "flyer_id": 5936697,
+            "display_name": "Fresh Chicken Drumsticks, Thighs or Leg Quarters",
+            "name": "Fresh Chicken Drumsticks, Thighs or Leg Quarters",
+            "description": "Giant, Grade A, Value Pack",
+            "current_price": "0.99",
+            "pre_price_text": null,
+            "price_text": "/lb.",
+            "category_names": [
+                "Deli"
+            ],
+            "large_image_url": "https://cdn.flippenterprise.net/page_items/307209550/1694549782/extra_large.jpg",
+            "x_large_image_url": "https://cdn.flippenterprise.net/page_items/307209550/1694549782/extra_large.jpg",
+            "dist_coupon_image_url": "https://f.wishabi.net/page_items/307209550/1694549782/extra_large.jpg",
+            "valid_to": "2023-09-21",
+            "valid_from": "2023-09-15",
+            "disclaimer_text": "Weekly Ad Prices online will be updated by 8am ET on the day new prices are effective, unless otherwise stated. If there is a discrepancy, please contact Customer Service for price adjustments 1-888-469-4426",
+            "flyer_run_id": 888344,
+            "flyer_type_id": 6404,
+            "unit_price": "0.99"
+        }]
+    },
+    "0765": {
+        "storeLocation": [
+            "Giant Food",
+            "1230 W. Broad St.",
+            "Falls Church, VA 22046"
+        ],
+        "items": [
+          {
+            "flyer_item_id": 776452024,
+            "flyer_id": 5936697,
+            "display_name": "Fresh Chicken Drumsticks, Thighs or Leg Quarters",
+            "name": "Fresh Chicken Drumsticks, Thighs or Leg Quarters",
+            "description": "Giant, Grade A, Value Pack",
+            "current_price": "0.99",
+            "pre_price_text": null,
+            "price_text": "/lb.",
+            "category_names": [
+                "Deli"
+            ],
+            "large_image_url": "https://cdn.flippenterprise.net/page_items/307209550/1694549782/extra_large.jpg",
+            "x_large_image_url": "https://cdn.flippenterprise.net/page_items/307209550/1694549782/extra_large.jpg",
+            "dist_coupon_image_url": "https://f.wishabi.net/page_items/307209550/1694549782/extra_large.jpg",
+            "valid_to": "2023-09-21",
+            "valid_from": "2023-09-15",
+            "disclaimer_text": "Weekly Ad Prices online will be updated by 8am ET on the day new prices are effective, unless otherwise stated. If there is a discrepancy, please contact Customer Service for price adjustments 1-888-469-4426",
+            "flyer_run_id": 888344,
+            "flyer_type_id": 6404,
+            "unit_price": "0.99"
+        }]
+    }
+}

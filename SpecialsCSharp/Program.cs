@@ -27,6 +27,21 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseFileServer();
+
+// Add a new route to return JSON data from sample.json
+app.Map("/items", app =>
+{
+  app.Run(async context =>
+  {
+    // Read the JSON data from sample.json
+    string json = File.ReadAllText("sample.json");
+
+    // Return the JSON object as the response
+    context.Response.ContentType = "application/json";
+    await context.Response.WriteAsync(json);
+  });
+});
+
 app.MapFallbackToFile("index.html");
 
 // var requestUrl = "https://api.openai.com/v1/chat/completions";
