@@ -11,7 +11,9 @@ Update: I have now established both a functioning homepage and a functioning web
 
 - Homepage: A functioning homepage can be found at https://localhost:7165/. The search button can be used to display sample items. But note that for now, these are hard coded items--search will not return current circular items.
 
-- End-To-End Test: A few end-to-end tests are now working, and passing. They are built with xUnit and Selenium.
+- Unit Tests: One autoamted unit end test is now working, and passing. Is built with xUnit.
+
+- End-To-End Tests: Most automated end-to-end tests are now working, and passing. They are built with xUnit and Selenium.
 
 - AI component (currently disabled): The homepage displays AI-generated content: the most popular dish in a random US state. The final app will have a similar component.
 
