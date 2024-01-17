@@ -5,7 +5,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
-<!-- ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/cagross/csharp-specials) -->
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/cagross/csharp-specials)
 
 <p float="left">
 <a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-400.png" alt="Patreon donate button." width="20%" style="max-width: 300px;"/></a>
