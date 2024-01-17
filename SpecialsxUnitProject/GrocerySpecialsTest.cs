@@ -1,10 +1,7 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using Xunit;
 using SeleniumExtras.WaitHelpers;
-
 
 public class GrocerySpecialsTest : IDisposable
 {
@@ -37,7 +34,7 @@ public class GrocerySpecialsTest : IDisposable
 
     // Check if there are four radio buttons on the page
     IReadOnlyCollection<IWebElement> radioButtons = driver.FindElements(By.CssSelector("input[type='radio']"));
-    Assert.Equal(4, radioButtons.Count);
+    Assert.True(4 == radioButtons.Count, "SP: the number of radio buttons should be exactly 4.");
   }
 
   // Test that correct data is displayed (case: search contains at least one store).
@@ -59,13 +56,13 @@ public class GrocerySpecialsTest : IDisposable
     submitButton.Click();
 
     // Implement a wait for the server's response
-    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
     wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("row__storaddress")));
 
     // Check the page for expected text content
     IWebElement element1 = driver.FindElement(By.XPath("//*[text()[contains(.,'7235 Arlington Blvd.')]]"));
     Assert.NotNull(element1);
-    
+
     IWebElement element2 = driver.FindElement(By.XPath("//*[text()[contains(.,'1230 W. Broad St.')]]"));
     Assert.NotNull(element2);
   }
