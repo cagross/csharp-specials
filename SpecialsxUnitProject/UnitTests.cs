@@ -84,8 +84,7 @@ public class UnitTest
           {
             return new JObject { { "items", new JArray(sampleItemData2) } }; // Third call returns sampleItemData2
           }
-        })
-        .Callback(() => { /* Any additional setup or behavior */ });
+        });
 
     string str1 = "current_flyer_id--0123456";
     string str2 = "current_flyer_id--6543210";
@@ -248,6 +247,30 @@ public class UnitTest
     expected[sampleStoreNo2] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress2, $"{sampleCity2}, {sampleState2} {sampleZip2}");
 
     var actual = await itemsController.StoreData("22042", 2);
+
+    var actualJson = JsonConvert.SerializeObject(actual);
+    var expectedJson = JsonConvert.SerializeObject(expected);
+
+    Assert.Equal(expectedJson, actualJson);
+  }
+
+  //Case: zero stores match search request.
+  [Fact]
+  public async Task DataAll_zero_matching_stores()
+  {
+    var sampleStoreData = new JObject { };
+
+    var mockWrapper = new Mock<HttpHelperWrapper>();
+    mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>()))
+        .ReturnsAsync(() =>
+        {
+          return sampleStoreData;
+        });
+
+    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
+
+    var actual = await itemsController.DataAll("22042", 1);
+    var expected = new Dictionary<string, object> { };
 
     var actualJson = JsonConvert.SerializeObject(actual);
     var expectedJson = JsonConvert.SerializeObject(expected);
