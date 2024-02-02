@@ -21,7 +21,7 @@ public class UnitTest
     mockController.Verify(x => x.DataAll(testObj.zip, testObj.radius), Times.Once);
   }
   [Fact]
-  public async Task TestDataAll()
+  public async Task DataAll_two_matching_stores()
   {
 
     // Sample store data
@@ -278,4 +278,118 @@ public class UnitTest
     Assert.Equal(expectedJson, actualJson);
   }
 
+  [Fact]
+  public async Task DataAll_four_matching_stores()
+  {
+    var emptyItems = new JObject
+    {
+    };
+    var maxNumStores = 2;
+
+    // Sample store data
+    var sampleStoreData = new JObject
+{
+    { "stores", new JArray
+        {
+            new JObject
+            {
+                { "storeNo", "0233" },
+                { "address1", "7235 Arlington Blvd." },
+                { "city", "Falls Church" },
+                { "state", "VA" },
+                { "zip", "22042" }
+            },
+            new JObject
+            {
+                { "storeNo", "0765" },
+                { "address1", "1230 W. Broad St." },
+                { "city", "Falls Church" },
+                { "state", "VA" },
+                { "zip", "22046" }
+            },
+            new JObject
+            {
+                { "storeNo", "0234" },
+                { "address1", "7235 Arlington Blvd." },
+                { "city", "Falls Church" },
+                { "state", "VA" },
+                { "zip", "22042" }
+            },
+            new JObject
+            {
+                { "storeNo", "0766" },
+                { "address1", "1230 W. Broad St." },
+                { "city", "Falls Church" },
+                { "state", "VA" },
+                { "zip", "22046" }
+            },
+        }
+    }
+};
+
+    var sampleItemData1 = new JObject
+{
+    { "category_names", new JArray("Meat") },
+    { "current_price", "1.99" },
+    { "price_text", "/lb" }
+};
+    var sampleItemData2 = new JObject
+{
+    { "category_names", new JArray("Meat") },
+    { "current_price", "2.99" },
+    { "price_text", "/lb" }
+};
+    var sampleItemData3 = new JObject
+{
+    { "category_names", new JArray("Meat") },
+    { "current_price", "3.99" },
+    { "price_text", "/lb" }
+};
+
+    var mockWrapper = new Mock<HttpHelperWrapper>();
+    bool firstCall = true;
+    bool secondCall = true;
+    bool thirdCall = true;
+
+    mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>()))
+          .ReturnsAsync(() =>
+          {
+            if (firstCall)
+            {
+              firstCall = false;
+              return sampleStoreData;
+            }
+            else if (secondCall)
+            {
+              secondCall = false;
+              return new JObject { { "items", new JArray(sampleItemData1) } };
+            }
+            else if (thirdCall)
+            {
+              thirdCall = false;
+              return new JObject { { "items", new JArray(sampleItemData2) } };
+            }
+            else
+            {
+              return new JObject { { "items", new JArray(sampleItemData3) } };
+            }
+          })
+          .Callback(() => { });
+
+    //Strings must be over 18 chars in length, due to the implementation.
+    string str1 = "sampletextsampletextsampletext";
+    string str2 = "sampletextsampletextsampletext";
+    string str3 = "sampletextsampletextsampletext";
+
+    mockWrapper.SetupSequence(x => x.SpFetchText(It.IsAny<string>())).ReturnsAsync(str1).ReturnsAsync(str2).ReturnsAsync(str3);
+
+    var itemsController = new ItemsController(mockWrapper.Object);
+    var myResult = await itemsController.DataAll("22042", 10);
+
+    var actual = ((Dictionary<string, object>)myResult).Count;
+    var expected = maxNumStores;
+
+    Assert.Equal(expected, actual);
+
+  }
 }
