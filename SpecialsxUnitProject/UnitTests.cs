@@ -68,20 +68,23 @@ public class UnitTest
     bool secondCall = true;
 
     mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>()))
-        .ReturnsAsync(() =>
+        .ReturnsAsync((string param) =>
         {
           if (firstCall)
           {
+            Assert.Equal("https://giantfood.com/apis/store-locator/locator/v1/stores/GNTL?storeType=GROCERY&q=22042&maxDistance=2&details=true", param);
             firstCall = false;
             return sampleStoreData; // First call returns sampleStoreData
           }
           else if (secondCall)
           {
+            Assert.Equal("https://circular.giantfood.com/flyer_data/0123456?locale=en-US", param);
             secondCall = false;
             return new JObject { { "items", new JArray(sampleItemData1) } }; // Second call returns sampleItemData1
           }
           else
           {
+            Assert.Equal("https://circular.giantfood.com/flyer_data/6543210?locale=en-US", param);
             return new JObject { { "items", new JArray(sampleItemData2) } }; // Third call returns sampleItemData2
           }
         });
@@ -89,10 +92,22 @@ public class UnitTest
     string str1 = "current_flyer_id--0123456";
     string str2 = "current_flyer_id--6543210";
 
-    mockWrapper.SetupSequence(x => x.SpFetchText(It.IsAny<string>()))
-        .ReturnsAsync(str1)
-        .ReturnsAsync(str2);
-
+    bool myFirstCall = true;
+    mockWrapper.Setup(x => x.SpFetchText(It.IsAny<string>()))
+            .ReturnsAsync((string param) =>
+            {
+              if (myFirstCall)
+              {
+                Assert.Equal("https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535", param);
+                myFirstCall = false;
+                return str1;
+              }
+              else
+              {
+                Assert.Equal("https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0765&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535", param);
+                return str2;
+              }
+            });
     var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
 
     var actual = await itemsController.DataAll("22042", 2);
