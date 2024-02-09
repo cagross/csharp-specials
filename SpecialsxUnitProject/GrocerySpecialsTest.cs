@@ -17,6 +17,8 @@ public class GrocerySpecialsTest : IDisposable
   [Fact]
   public void CheckGrocerySpecialsText()
   {
+    //Test: Ensure 'Grocery Specials' text is on page.
+
     // Navigate to your web application's URL
     driver.Navigate().GoToUrl("https://localhost:7165");
 
@@ -29,6 +31,8 @@ public class GrocerySpecialsTest : IDisposable
   [Fact]
   public void CheckRadioButtons()
   {
+    //Test: Ensure four radio buttons are on page.
+
     // Navigate to your web application's URL
     driver.Navigate().GoToUrl("https://localhost:7165");
 
@@ -41,6 +45,8 @@ public class GrocerySpecialsTest : IDisposable
   [Fact]
   public void FillInputFieldsSubmitAndCheckResponse()
   {
+    //Test: Ensure data for two stores is displayed.
+
     // Navigate to your web application's URL
     driver.Navigate().GoToUrl("https://localhost:7165");
 

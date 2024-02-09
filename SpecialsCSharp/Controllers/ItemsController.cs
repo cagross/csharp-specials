@@ -9,6 +9,24 @@ using Newtonsoft.Json.Linq;
 [Route("[controller]")]
 public class ItemsController : ControllerBase
 {
+  /// <summary>
+  /// Retrieves items based on the provided search criteria.
+  /// </summary>
+  /// <param name="request">The search criteria containing zip code and radius.
+  /// <para>
+  /// The <paramref name="request"/> parameter is expected to have the following properties:
+  /// </para>
+  /// <list type="bullet">
+  ///   <item>
+  ///     <term>zip</term>
+  ///     <description>A string representing the zip code.</description>
+  ///   </item>
+  ///   <item>
+  ///     <term>radius</term>
+  ///     <description>An integer representing the search radius in miles.</description>
+  ///   </item>
+  /// </list>
+  /// </param>
   [HttpPost]
   public async Task<IActionResult> ItemsPost([FromBody] SearchModel request)
   {
@@ -20,11 +38,15 @@ public class ItemsController : ControllerBase
     }
     catch (Exception ex)
     {
-      // Handle exceptions here if needed
       return StatusCode(500, $"Internal server error: {ex.Message}");
     }
   }
+
   private readonly HttpHelperWrapper _httpHelperWrapper;
+  /// <summary>
+  /// Initializes a new instance of the ItemsController class.
+  /// </summary>
+  /// <param name="httpHelperWrapper">An instance of HttpHelperWrapper used for HTTP requests.</param>
   [ActivatorUtilitiesConstructor]
   public ItemsController(HttpHelperWrapper httpHelperWrapper)
   {
@@ -33,9 +55,16 @@ public class ItemsController : ControllerBase
 
   public ItemsController()
   {
-    // You can initialize any default values or set up dependencies here
   }
 
+  /// <summary>
+  /// Fetch store data and return store code and location for all Giant Food stores within given zip/radius search parameters.
+  /// </summary>
+  /// <param name="zip">The zip code to search for stores.</param>
+  /// <param name="radius">The search radius in miles.</param>
+  /// <returns>Returns store data as an object. Contains store code and location of each store found in search.</returns>
+  /// <exception cref="ArgumentNullException">Thrown when zip is null.</exception>
+  /// <exception cref="ArgumentException">Thrown when radius is less than or equal to zero.</exception>
   [ApiExplorerSettings(IgnoreApi = true)]
   public async Task<object> StoreData(string zip, int radius)
   {
@@ -65,6 +94,14 @@ public class ItemsController : ControllerBase
     return storeData;
   }
 
+  /// <summary>
+  /// Uses zip/radius search parameters to find circular items from all stores found within the zip/radius search. 
+  /// </summary>
+  /// <param name="zip">The zip code to search for stores.</param>
+  /// <param name="radius">The search radius in miles.</param>
+  /// <returns>Returns circular data for all stores as an object.</returns>
+  /// <exception cref="ArgumentNullException">Thrown when zip is null.</exception>
+  /// <exception cref="ArgumentException">Thrown when radius is le
   [ApiExplorerSettings(IgnoreApi = true)]
   public virtual async Task<object> DataAll(string zip, int radius)
   {
@@ -93,6 +130,12 @@ public class ItemsController : ControllerBase
 
     return storeDataAll;
   }
+
+  /// <summary>
+  /// Fetch all weekly circular data from one Giant Food store and return only those from the deli department.
+  /// </summary>
+  /// <param name="storeCode">The code representing the store for which data is to be retrieved.</param>
+  /// <returns>Returns an array of objects containing data retrieved from the API.</returns>
   [ApiExplorerSettings(IgnoreApi = true)]
   public async Task<object[]> ApiData(string storeCode)
   {
@@ -145,6 +188,11 @@ public class ItemsController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Return the unit price for each item.
+  /// </summary>
+  /// <param name="item">A dictionary containing details of the item.</param>
+  /// <returns>Returns the calculated unit price as a decimal.</returns>
   [ApiExplorerSettings(IgnoreApi = true)]
   public decimal UnitPrice(Dictionary<string, object> item)
   {
@@ -219,6 +267,12 @@ public class ItemsController : ControllerBase
     return unitPrice;
   }
 
+  /// <summary>
+  /// Accept all circular items and filter by specific departments, e.g. meat, deli, etc.  For now, it filters by only the meat/deli department.
+  /// </summary>
+  /// <param name="dataItems">A list of dictionaries containing data items to be filtered.</param>
+  /// <param name="filterCode">An integer representing the filter code.</param>
+  /// <returns>Returns a list of integers representing filtered item indices.</returns>
   [ApiExplorerSettings(IgnoreApi = true)]
   public List<int> ProductFilter(List<Dictionary<string, object>> dataItems, int filterCode)
   {
@@ -255,15 +309,27 @@ public class ItemsController : ControllerBase
     return filteredItems;
   }
 }
-
+/// <summary>
+/// Represents a search model containing parameters for location-based searches.
+/// </summary>
 public class SearchModel
 {
   public string zip { get; set; }
   public int radius { get; set; }
 }
 
+/// <summary>
+/// Contains methods for handling address information.
+/// </summary>
 public class AddressInfo
 {
+  /// <summary>
+  /// Creates an array containing place name, street address, and city/state/ZIP.
+  /// </summary>
+  /// <param name="placeName">The name of the place.</param>
+  /// <param name="streetAddress">The street address.</param>
+  /// <param name="cityStateZip">The city, state, and ZIP code.</param>
+  /// <returns>An array containing the address information.</returns>
   public static string[] CreateAddressArray(string placeName, string streetAddress, string cityStateZip)
   {
     return new string[] { placeName, streetAddress, cityStateZip };

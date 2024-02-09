@@ -6,9 +6,12 @@ using Newtonsoft.Json.Linq;
 
 public class UnitTest
 {
+
   [Fact]
   public async Task TestItemsPost()
   {
+    //Case: At least one store is returned in search.
+
     var mockController = new Mock<ItemsController>();
     mockController
         .Setup(x => x.DataAll(It.IsAny<string>(), It.IsAny<int>()))
@@ -20,34 +23,35 @@ public class UnitTest
 
     mockController.Verify(x => x.DataAll(testObj.zip, testObj.radius), Times.Once);
   }
+
   [Fact]
   public async Task DataAll_two_matching_stores()
   {
+    //Case: two stores match search request.
 
-    // Sample store data
     var sampleStoreData = new JObject
-{
-    { "stores", new JArray
-        {
-            new JObject
+    {
+        { "stores", new JArray
             {
-                { "storeNo", "0233" },
-                { "address1", "7235 Arlington Blvd." },
-                { "city", "Falls Church" },
-                { "state", "VA" },
-                { "zip", "22042" }
-            },
-            new JObject
-            {
-                { "storeNo", "0765" },
-                { "address1", "1230 W. Broad St." },
-                { "city", "Falls Church" },
-                { "state", "VA" },
-                { "zip", "22046" }
+                new JObject
+                {
+                    { "storeNo", "0233" },
+                    { "address1", "7235 Arlington Blvd." },
+                    { "city", "Falls Church" },
+                    { "state", "VA" },
+                    { "zip", "22042" }
+                },
+                new JObject
+                {
+                    { "storeNo", "0765" },
+                    { "address1", "1230 W. Broad St." },
+                    { "city", "Falls Church" },
+                    { "state", "VA" },
+                    { "zip", "22046" }
+                }
             }
         }
-    }
-};
+    };
 
     // Sample item data
     var sampleItemData1 = new JObject
@@ -165,114 +169,10 @@ public class UnitTest
   }
 
   [Fact]
-  public void UnitPrice_ReturnsCorrectValue()
-  {
-    var itemsController = new ItemsController(); // Instantiate your controller
-    var testItem = new Dictionary<string, object>
-{
-    { "description", "Selected Varieties, 6-9 oz. pkg." },
-    { "current_price", "6.0"},
-    { "name", "Perdue Chicken Short Cuts" },
-    { "pre_price_text", "2/" },
-    { "price_text", "" }
-};
-
-    var testUnitPrice = itemsController.UnitPrice(testItem);
-
-    Assert.Equal(8.0m, testUnitPrice); // Use decimal for expected value
-  }
-  [Fact]
-  public void UnitPrice_ItemLb()
-  {
-    var itemsController = new ItemsController(); // Instantiate your controller
-    var testItem = new Dictionary<string, object>
-    {
-      {"description", "Frozen, 4 lb. pkg."},
-      {"current_price", "12.99"},
-      {"name", "Philly Gourmet Beef Patties"},
-      {"pre_price_text", ""},
-      {"price_text", "/ea."}
-    };
-
-    var testUnitPrice = itemsController.UnitPrice(testItem);
-
-    Assert.Equal(3.2475m, testUnitPrice); // Use decimal for expected value
-  }
-  [Fact]
-  public void UnitPrice_ItemPriceTextLb()
-  {
-    var itemsController = new ItemsController(); // Instantiate your controller
-    var testItem = new Dictionary<string, object>
-    {
-      {"description", "Organic apples"},
-      {"current_price", "10.00"},
-      {"pre_price_text", ""},
-      {"price_text", "/lb"}
-    };
-
-    var testUnitPrice = itemsController.UnitPrice(testItem);
-
-    Assert.Equal(10.00m, testUnitPrice); // Use decimal for expected value
-  }
-  [Fact]
-  public async void StoreData_GiantValidData()
-  {
-    var sampleStoreNo1 = "0233";
-    var sampleStoreNo2 = "0765";
-
-    var sampleAddress1 = "7235 Arlington Blvd.";
-    var sampleCity1 = "Falls Church";
-    var sampleState1 = "VA";
-    var sampleZip1 = "22042";
-
-    var sampleAddress2 = "1230 W. Broad St.";
-    var sampleCity2 = "Falls Church";
-    var sampleState2 = "VA";
-    var sampleZip2 = "22046";
-
-    var sampleStoreData = new JObject
-    {
-      ["stores"] = new JArray
-    {
-        new JObject
-        {
-            ["storeNo"] = sampleStoreNo1,
-            ["address1"] = sampleAddress1,
-            ["city"] = sampleCity1,
-            ["state"] = sampleState1,
-            ["zip"] = sampleZip1
-        },
-        new JObject
-        {
-            ["storeNo"] = sampleStoreNo2,
-            ["address1"] = sampleAddress2,
-            ["city"] = sampleCity2,
-            ["state"] = sampleState2,
-            ["zip"] = sampleZip2
-        }
-    }
-    };
-    var mockWrapper = new Mock<HttpHelperWrapper>();
-    mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>())).ReturnsAsync(sampleStoreData);
-
-    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
-
-    var expected = new ExpandoObject() as IDictionary<string, object>;
-    expected[sampleStoreNo1] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress1, $"{sampleCity1}, {sampleState1} {sampleZip1}");
-    expected[sampleStoreNo2] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress2, $"{sampleCity2}, {sampleState2} {sampleZip2}");
-
-    var actual = await itemsController.StoreData("22042", 2);
-
-    var actualJson = JsonConvert.SerializeObject(actual);
-    var expectedJson = JsonConvert.SerializeObject(expected);
-
-    Assert.Equal(expectedJson, actualJson);
-  }
-
-  //Case: zero stores match search request.
-  [Fact]
   public async Task DataAll_zero_matching_stores()
   {
+    //Case: zero stores match search request.
+
     var sampleStoreData = new JObject { };
 
     var mockWrapper = new Mock<HttpHelperWrapper>();
@@ -296,6 +196,8 @@ public class UnitTest
   [Fact]
   public async Task DataAll_four_matching_stores()
   {
+    //Case: four stores match search request.
+
     var emptyItems = new JObject
     {
     };
@@ -407,4 +309,116 @@ public class UnitTest
     Assert.Equal(expected, actual);
 
   }
+
+  [Fact]
+  public void UnitPrice_ReturnsCorrectValue()
+  {
+    //Case: item price has an additional divisor e.g. '2 for $3.00.'
+    var itemsController = new ItemsController(); // Instantiate your controller
+    var testItem = new Dictionary<string, object>
+{
+    { "description", "Selected Varieties, 6-9 oz. pkg." },
+    { "current_price", "6.0"},
+    { "name", "Perdue Chicken Short Cuts" },
+    { "pre_price_text", "2/" },
+    { "price_text", "" }
+};
+
+    var testUnitPrice = itemsController.UnitPrice(testItem);
+
+    Assert.Equal(8.0m, testUnitPrice); // Use decimal for expected value
+  }
+  [Fact]
+  public void UnitPrice_ItemLb()
+  {
+    //Case: item price has 'lb' in price description.
+    var itemsController = new ItemsController(); // Instantiate your controller
+    var testItem = new Dictionary<string, object>
+    {
+      {"description", "Frozen, 4 lb. pkg."},
+      {"current_price", "12.99"},
+      {"name", "Philly Gourmet Beef Patties"},
+      {"pre_price_text", ""},
+      {"price_text", "/ea."}
+    };
+
+    var testUnitPrice = itemsController.UnitPrice(testItem);
+
+    Assert.Equal(3.2475m, testUnitPrice); // Use decimal for expected value
+  }
+
+  [Fact]
+  public void UnitPrice_ItemPriceTextLb()
+  {
+    //Case: item description does not contain 'lb' or 'oz' but price_text contains 'lb.
+    var itemsController = new ItemsController(); // Instantiate your controller
+    var testItem = new Dictionary<string, object>
+    {
+      {"description", "Organic apples"},
+      {"current_price", "10.00"},
+      {"pre_price_text", ""},
+      {"price_text", "/lb"}
+    };
+
+    var testUnitPrice = itemsController.UnitPrice(testItem);
+
+    Assert.Equal(10.00m, testUnitPrice); // Use decimal for expected value
+  }
+  [Fact]
+  public async void StoreData_GiantValidData()
+  {
+    //Case: Giant Food store search API returns valid data.
+
+    var sampleStoreNo1 = "0233";
+    var sampleStoreNo2 = "0765";
+
+    var sampleAddress1 = "7235 Arlington Blvd.";
+    var sampleCity1 = "Falls Church";
+    var sampleState1 = "VA";
+    var sampleZip1 = "22042";
+
+    var sampleAddress2 = "1230 W. Broad St.";
+    var sampleCity2 = "Falls Church";
+    var sampleState2 = "VA";
+    var sampleZip2 = "22046";
+
+    var sampleStoreData = new JObject
+    {
+      ["stores"] = new JArray
+    {
+        new JObject
+        {
+            ["storeNo"] = sampleStoreNo1,
+            ["address1"] = sampleAddress1,
+            ["city"] = sampleCity1,
+            ["state"] = sampleState1,
+            ["zip"] = sampleZip1
+        },
+        new JObject
+        {
+            ["storeNo"] = sampleStoreNo2,
+            ["address1"] = sampleAddress2,
+            ["city"] = sampleCity2,
+            ["state"] = sampleState2,
+            ["zip"] = sampleZip2
+        }
+    }
+    };
+    var mockWrapper = new Mock<HttpHelperWrapper>();
+    mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>())).ReturnsAsync(sampleStoreData);
+
+    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
+
+    var expected = new ExpandoObject() as IDictionary<string, object>;
+    expected[sampleStoreNo1] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress1, $"{sampleCity1}, {sampleState1} {sampleZip1}");
+    expected[sampleStoreNo2] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress2, $"{sampleCity2}, {sampleState2} {sampleZip2}");
+
+    var actual = await itemsController.StoreData("22042", 2);
+
+    var actualJson = JsonConvert.SerializeObject(actual);
+    var expectedJson = JsonConvert.SerializeObject(expected);
+
+    Assert.Equal(expectedJson, actualJson);
+  }
+
 }
