@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Project",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run Unit Tests",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "--filter",
+        "TestType=Unit"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build and Run Unit Tests",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Build Project", "Run Unit Tests"]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ public class UnitTest
 {
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public async Task TestItemsPost()
   {
     //Case: At least one store is returned in search.
@@ -25,6 +26,7 @@ public class UnitTest
   }
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public async Task DataAll_two_matching_stores()
   {
     //Case: two stores match search request.
@@ -169,6 +171,7 @@ public class UnitTest
   }
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public async Task DataAll_zero_matching_stores()
   {
     //Case: zero stores match search request.
@@ -194,6 +197,7 @@ public class UnitTest
   }
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public async Task DataAll_four_matching_stores()
   {
     //Case: four stores match search request.
@@ -311,6 +315,7 @@ public class UnitTest
   }
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public void UnitPrice_ReturnsCorrectValue()
   {
     //Case: item price has an additional divisor e.g. '2 for $3.00.'
@@ -329,6 +334,7 @@ public class UnitTest
     Assert.Equal(8.0m, testUnitPrice); // Use decimal for expected value
   }
   [Fact]
+  [Trait("TestType", "Unit")]
   public void UnitPrice_ItemLb()
   {
     //Case: item price has 'lb' in price description.
@@ -348,6 +354,7 @@ public class UnitTest
   }
 
   [Fact]
+  [Trait("TestType", "Unit")]
   public void UnitPrice_ItemPriceTextLb()
   {
     //Case: item description does not contain 'lb' or 'oz' but price_text contains 'lb.
@@ -365,6 +372,7 @@ public class UnitTest
     Assert.Equal(10.00m, testUnitPrice); // Use decimal for expected value
   }
   [Fact]
+  [Trait("TestType", "Unit")]
   public async void StoreData_GiantValidData()
   {
     //Case: Giant Food store search API returns valid data.
