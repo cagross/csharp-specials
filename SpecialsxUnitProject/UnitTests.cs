@@ -18,7 +18,7 @@ public class UnitTest
         .Setup(x => x.DataAll(It.IsAny<string>(), It.IsAny<int>()))
         .ReturnsAsync(new { myProp = 555 });
 
-    var testObj = new SearchModel { zip = "22042", radius = 2 };
+    var testObj = new SearchParameters { zip = "22042", radius = 2 };
 
     await mockController.Object.ItemsPost(testObj);
 
