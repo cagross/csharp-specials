@@ -58,7 +58,7 @@ _Note: Currently the notify component uses the weekly specials from only one sin
 | ![React logo.](images-readme/logo-reactjs-100.png "React logo.") | [ReactJS](https://reactjs.org/)     | Web Framework. I used the [Create React App project](https://github.com/facebook/create-react-app) to get started. |
 | ![.NET logo.](images-readme/logo-dotnet-100.png ".NET logo.")  | [.NET](https://dotnet.microsoft.com/)      | Server environment                                                                                                 |
 | ![ASP.NET Core logo.](images-readme/logo-asp.net-core-100.png "ASP.NET Core logo.") | [ASP.NET Core](https://learn.microsoft.com/en-gb/aspnet/core/?view=aspnetcore-8.0/)   | Web server environment                                                                                             |
-| ![C# logo.](images-readme/logo-c-sharp-100.png "C# logo.")  | [C#](https://learn.microsoft.com/en-us/dotnet/csharp/) | Programming language                                   |
+| ![C# logo.](images-readme/logo-c-sharp-100.png "C# logo.")  | [C#](https://learn.microsoft.com/en-us/dotnet/csharp/) | Server programming language                                   |
 |  | TBD (PostgreSQL?) | Database                                                                                                           |
 <!-- | ![MongoDB logo.](images-readme/logo-mongodb-100.jpg "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database                                                                                                           | -->
 

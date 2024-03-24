@@ -3,27 +3,10 @@ using SpecialsC_.API.Helpers;
 using Newtonsoft.Json;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
+using SpecialsCSharp.Services;
 
 public class UnitTest
 {
-
-  [Fact]
-  [Trait("TestType", "Unit")]
-  public async Task TestItemsPost()
-  {
-    //Case: At least one store is returned in search.
-
-    var mockController = new Mock<ItemsController>();
-    mockController
-        .Setup(x => x.DataAll(It.IsAny<string>(), It.IsAny<int>()))
-        .ReturnsAsync(new { myProp = 555 });
-
-    var testObj = new SearchParameters { zip = "22042", radius = 2 };
-
-    await mockController.Object.ItemsPost(testObj);
-
-    mockController.Verify(x => x.DataAll(testObj.zip, testObj.radius), Times.Once);
-  }
 
   [Fact]
   [Trait("TestType", "Unit")]
@@ -114,7 +97,7 @@ public class UnitTest
                 return str2;
               }
             });
-    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
+    var itemsController = new ItemsService(mockWrapper.Object); // Instantiate your controller
 
     var actual = await itemsController.DataAll("22042", 2);
 
@@ -185,7 +168,7 @@ public class UnitTest
           return sampleStoreData;
         });
 
-    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
+    var itemsController = new ItemsService(mockWrapper.Object); // Instantiate your controller
 
     var actual = await itemsController.DataAll("22042", 1);
     var expected = new Dictionary<string, object> { };
@@ -304,7 +287,7 @@ public class UnitTest
 
     mockWrapper.SetupSequence(x => x.SpFetchText(It.IsAny<string>())).ReturnsAsync(str1).ReturnsAsync(str2).ReturnsAsync(str3);
 
-    var itemsController = new ItemsController(mockWrapper.Object);
+    var itemsController = new ItemsService(mockWrapper.Object); // Instantiate your controller
     var myResult = await itemsController.DataAll("22042", 10);
 
     var actual = ((Dictionary<string, object>)myResult).Count;
@@ -319,7 +302,6 @@ public class UnitTest
   public void UnitPrice_ReturnsCorrectValue()
   {
     //Case: item price has an additional divisor e.g. '2 for $3.00.'
-    var itemsController = new ItemsController(); // Instantiate your controller
     var testItem = new Dictionary<string, object>
 {
     { "description", "Selected Varieties, 6-9 oz. pkg." },
@@ -329,7 +311,7 @@ public class UnitTest
     { "price_text", "" }
 };
 
-    var testUnitPrice = itemsController.UnitPrice(testItem);
+    var testUnitPrice = new PricingCalculator().UnitPrice(testItem);
 
     Assert.Equal(8.0m, testUnitPrice); // Use decimal for expected value
   }
@@ -338,7 +320,6 @@ public class UnitTest
   public void UnitPrice_ItemLb()
   {
     //Case: item price has 'lb' in price description.
-    var itemsController = new ItemsController(); // Instantiate your controller
     var testItem = new Dictionary<string, object>
     {
       {"description", "Frozen, 4 lb. pkg."},
@@ -348,7 +329,7 @@ public class UnitTest
       {"price_text", "/ea."}
     };
 
-    var testUnitPrice = itemsController.UnitPrice(testItem);
+    var testUnitPrice = new PricingCalculator().UnitPrice(testItem);
 
     Assert.Equal(3.2475m, testUnitPrice); // Use decimal for expected value
   }
@@ -358,7 +339,6 @@ public class UnitTest
   public void UnitPrice_ItemPriceTextLb()
   {
     //Case: item description does not contain 'lb' or 'oz' but price_text contains 'lb.
-    var itemsController = new ItemsController(); // Instantiate your controller
     var testItem = new Dictionary<string, object>
     {
       {"description", "Organic apples"},
@@ -367,7 +347,7 @@ public class UnitTest
       {"price_text", "/lb"}
     };
 
-    var testUnitPrice = itemsController.UnitPrice(testItem);
+    var testUnitPrice = new PricingCalculator().UnitPrice(testItem);
 
     Assert.Equal(10.00m, testUnitPrice); // Use decimal for expected value
   }
@@ -376,7 +356,6 @@ public class UnitTest
   public async void StoreData_GiantValidData()
   {
     //Case: Giant Food store search API returns valid data.
-
     var sampleStoreNo1 = "0233";
     var sampleStoreNo2 = "0765";
 
@@ -415,13 +394,13 @@ public class UnitTest
     var mockWrapper = new Mock<HttpHelperWrapper>();
     mockWrapper.Setup(x => x.SpFetchJson(It.IsAny<string>())).ReturnsAsync(sampleStoreData);
 
-    var itemsController = new ItemsController(mockWrapper.Object); // Instantiate your controller
+    var storeService = new StoreService(mockWrapper.Object); // Instantiate your controller
 
     var expected = new ExpandoObject() as IDictionary<string, object>;
     expected[sampleStoreNo1] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress1, $"{sampleCity1}, {sampleState1} {sampleZip1}");
     expected[sampleStoreNo2] = AddressInfo.CreateAddressArray("Giant Food", sampleAddress2, $"{sampleCity2}, {sampleState2} {sampleZip2}");
 
-    var actual = await itemsController.StoreData("22042", 2);
+    var actual = await storeService.StoreData("22042", 2);
 
     var actualJson = JsonConvert.SerializeObject(actual);
     var expectedJson = JsonConvert.SerializeObject(expected);
